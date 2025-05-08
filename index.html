@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/Babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    // Register Component
+    function Register({ setPage }) {
+      const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: '',
+        fullName: ''
+      });
+      const [error, setError] = useState('');
+
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        // Basic validation
+        if (!formData.username || formData.username.length < 3) {
+          setError('Username must be at least 3 characters');
+          return;
+        }
+        if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+          setError('Invalid email address');
+          return;
+        }
+        if (!formData.password || formData.password.length < 8) {
+          setError('Password must be at least 8 characters');
+          return;
+        }
+        setError('');
+        // Placeholder for backend API call (e.g., send to server for hashing/storage)
+        console.log('Register:', formData);
+        // TODO: Implement cryptographic hashing (e.g., Argon2) on backend
+      };
+
+      return (
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Register</h2>
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter username"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter email"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter password"
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fullName">Full Name (Optional)</label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter full name"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Register
+            </button>
+          </form>
+          <p className="text-center text-gray-600 mt-4">
+            Already have an account?{' '}
+            <a href="#" onClick={() => setPage('login')} className="text-blue-500 hover:underline">
+              Login
+            </a>
+          </p>
+        </div>
+      );
+    }
+
+    // Login Component
+    function Login({ setPage }) {
+      const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+      });
+      const [error, setError] = useState('');
+
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        // Basic validation
+        if (!formData.username) {
+          setError('Username is required');
+          return;
+        }
+        if (!formData.password) {
+          setError('Password is required');
+          return;
+        }
+        setError('');
+        // Placeholder for backend API call (e.g., verify credentials)
+        console.log('Login:', formData);
+        // TODO: Implement backend authentication with cryptographic verification
+      };
+
+      return (
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter username"
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter password"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Login
+            </button>
+          </form>
+          <p className="text-center text-gray-600 mt-4">
+            Don't have an account?{' '}
+            <a href="#" onClick={() => setPage('register')} className="text-blue-500 hover:underline">
+              Register
+            </a>
+          </p>
+        </div>
+      );
+    }
+
+    // Main App Component
+    function App() {
+      const [page, setPage] = useState('register');
+
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          {page === 'register' ? <Register setPage={setPage} /> : <Login setPage={setPage} />}
+        </div>
+      );
+    }
+
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
