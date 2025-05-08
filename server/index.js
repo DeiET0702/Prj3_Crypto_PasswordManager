@@ -4,6 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 
+// middleware
+app.use(cors({origin: 'http://localhost:5173', credentials: true}));
+app.use(express.json());
+
 //database connection
 mongoose.connect(process.env.MONGO_URL)
 .then(() => console.log("Database Connected"))
@@ -11,7 +15,6 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.use('/', require('./routes/authRoutes'));
 
-const port = 8000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });

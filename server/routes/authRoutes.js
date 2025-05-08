@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { test } = require('../controllers/authControllers');
+const { sharePassword } = require('../controllers/authControllers');
 
 router.use(
     cors({
@@ -10,6 +10,6 @@ router.use(
     })
 );
 
-router.get('/', test);
+router.post('/share', sharePassword);
 
 module.exports = router;
